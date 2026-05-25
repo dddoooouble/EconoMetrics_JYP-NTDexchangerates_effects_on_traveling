@@ -1,0 +1,21 @@
+\begin{table}[H]
+\centering
+\caption{ADF-Style Unit-Root and Spurious-Regression Checks}
+\label{tab:adf}
+\begin{tabular}{lrrl}
+\toprule
+Series & Level statistic & First-difference statistic & Approximate conclusion \\
+\midrule
+Log tourist arrivals & -6.025 & -13.513 & Level-stationary at 5\% \\
+Log exchange rate & -1.831 & -6.119 & Likely I(1) \\
+Log Japanese industrial production & -10.496 & -20.373 & Level-stationary at 5\% \\
+Log Brent oil price & -2.066 & -7.070 & Likely I(1) \\
+\midrule
+Residual from bivariate regression & -3.748 & -- & Stationary residual if statistic $<$ -2.89 \\
+Residual from full regression & -4.331 & -- & Stationary residual if statistic $<$ -2.89 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.95\textwidth}
+\vspace{0.4em}\footnotesize Notes: These are manual ADF-style regressions with one lag of the dependent difference. For level tests, the regression includes an intercept and linear trend; for first differences and residuals, it includes an intercept only. As a rule of thumb, a value below about $-3.43$ in levels with trend or below about $-2.89$ in differences suggests rejecting a unit root at the 5\% level. This table is used to screen for potential spurious regression concerns rather than to replace a full unit-root package.
+\end{minipage}
+\end{table}

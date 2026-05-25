@@ -1,0 +1,512 @@
+\documentclass[12pt,a4paper,fontset=none]{ctexart}
+
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{caption}
+
+\setmainfont{Times New Roman}
+\setsansfont{Helvetica}
+\setmonofont{Menlo}
+\setCJKmainfont{Songti TC}
+\setCJKsansfont{Noto Sans CJK TC}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  urlcolor=blue!60!black,
+  citecolor=blue!60!black
+}
+
+\linespread{1.2}\selectfont
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{2em}
+
+\title{台日匯率對日本來台人數影響之模型設計\\與研究限制分析}
+\author{研究報告草稿}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+本報告旨在建立一個可操作的實證分析框架，用以研究「台日匯率變動是否以及如何影響日本旅客來台人數」。由於跨境旅遊需求同時受到相對價格、所得、航班供給、政策制度、季節性、重大事件與疫情衝擊等多重因素影響，若只以匯率單一變數解釋日本來台觀光人數，容易產生遺漏變數偏誤與錯誤推論。因此，本報告主張以月資料為主，採用對數化需求模型作為基準規格，並進一步考慮落後期效果、季節控制、結構性斷點、單根與共整合、內生性與非線性等問題。文末並整理一套研究執行建議，協助將本報告擴充為完整的實證專題。
+\end{abstract}
+
+\section{研究背景與問題意識}
+
+日本長期為台灣重要的國際客源市場之一。從旅遊需求的角度來看，匯率會改變旅客對目的地的相對價格感受，進而影響出國意願、停留天數與消費規模。若新台幣相對日圓貶值，對持有日圓的日本旅客而言，來台旅遊的住宿、餐飲、交通與購物成本可能相對下降，理論上可提高來台意願；反之，若新台幣升值，台灣旅遊成本相對提高，則日本旅客需求可能減弱。
+
+然而，實際的旅遊流量不會只由匯率決定。旅客是否來台，還會受到下列因素共同影響：
+
+\begin{itemize}
+  \item 日本國內景氣與可支配所得變化。
+  \item 台日之間的機票價格與航班班次供給。
+  \item 季節性因素，例如櫻花季、暑假、黃金週、年末年始等。
+  \item 台灣的觀光吸引力、活動檔期、治安與國際形象。
+  \item 政策制度，如簽證便利性、邊境管制與促銷補助。
+  \item 外生衝擊，如 COVID-19、地震、颱風、國際政治事件。
+\end{itemize}
+
+因此，本研究的核心問題不是「匯率是否重要」這麼簡單，而是：
+
+\begin{enumerate}
+  \item 在控制其他重要因素後，台日匯率對日本來台人數是否具有顯著影響？
+  \item 這種影響是立即發生，還是具有數月的落後效果？
+  \item 匯率效果在不同時期是否穩定，或會因疫情、政策與航班供給改變而失真？
+  \item 若估計結果不顯著，究竟是「真的沒有影響」，還是資料與模型設計存在問題？
+\end{enumerate}
+
+\section{研究假說與經濟直覺}
+
+\subsection{基本假說}
+
+本研究可提出以下基本假說：
+
+\begin{itemize}
+  \item \textbf{H1：}日圓相對新台幣升值時，日本來台人數增加。
+  \item \textbf{H2：}匯率的影響不一定是當月立即反映，可能在未來 $1$ 至 $3$ 個月逐步體現。
+  \item \textbf{H3：}匯率效果在邊境正常開放期間較明顯，在疫情封鎖或航班嚴重不足期間會被弱化。
+  \item \textbf{H4：}若控制相對價格、航班供給與季節性後，匯率彈性可能比直覺上更小。
+\end{itemize}
+
+\subsection{匯率影響旅遊需求的傳導機制}
+
+匯率對旅遊需求的作用可分成幾條路徑：
+
+\begin{enumerate}
+  \item \textbf{相對價格效果：}匯率改變旅客在目的地的購買力，影響旅遊成本。
+  \item \textbf{預期效果：}若旅客預期未來匯率更有利，可能延後或提前出行。
+  \item \textbf{預算配置效果：}即使旅客決定出國，匯率也可能影響其在台灣與其他目的地之間的選擇。
+  \item \textbf{消費組合效果：}旅客人數未必大幅變動，但人均消費、停留天數或購物結構可能先改變。
+\end{enumerate}
+
+這也說明一個重要研究限制：若只看「來台人次」，可能低估匯率對旅遊經濟的整體影響，因為匯率可能更先反映在「消費額」而不是「人數」。
+
+\section{資料設計}
+
+\subsection{被解釋變數}
+
+建議以月頻率的日本來台旅客人數作為被解釋變數，記為：
+
+\[
+Tourist_t = \text{第 } t \text{ 月日本來台人數}
+\]
+
+為了讓係數具有彈性解讀，通常使用對數型式：
+
+\[
+\ln(Tourist_t)
+\]
+
+若資料中存在極端值、疫情期間接近零的人數，則需考慮：
+
+\begin{itemize}
+  \item 在疫情封鎖期間加入事件虛擬變數；
+  \item 或直接限制樣本於正常通關期間；
+  \item 或採用 $\ln(Tourist_t + 1)$ 以避免取對數時出現問題。
+\end{itemize}
+
+\subsection{核心解釋變數：匯率}
+
+匯率定義需要非常小心，因為不同表示方式會直接影響係數方向的解讀。常見表示方法包括：
+
+\begin{enumerate}
+  \item \textbf{JPY/TWD：}每 1 新台幣可兌換多少日圓。
+  \item \textbf{TWD/JPY：}每 1 日圓可兌換多少新台幣。
+  \item \textbf{雙邊實質匯率（Real Exchange Rate）：}再納入兩國物價水準調整。
+\end{enumerate}
+
+若研究目的是衡量「日本旅客來台的價格誘因」，實務上更推薦使用\textbf{日圓購買新台幣的能力}或\textbf{雙邊實質匯率}。例如，令：
+
+\[
+FX_t = \text{日圓相對新台幣的購買力指標}
+\]
+
+則當 $FX_t$ 上升，代表日本旅客來台相對更便宜，預期：
+
+\[
+\beta_1 > 0
+\]
+
+\subsection{控制變數}
+
+若條件允許，建議至少納入下列控制變數：
+
+\begin{longtable}{p{3.3cm}p{4.8cm}p{6.4cm}}
+\toprule
+變數類型 & 可能指標 & 納入原因 \\
+\midrule
+日本所得或景氣 & 工業生產指數、失業率、消費者信心、實質薪資 & 反映出國旅遊支付能力 \\
+交通供給 & 台日航班數、可售座位數、平均票價 & 旅遊需求受到供給限制，尤其疫情後更明顯 \\
+季節性 & 月份虛擬變數、假期虛擬變數 & 旅遊需求具有固定季節波動 \\
+相對物價 & 台灣 CPI、日本 CPI、實質匯率 & 單看名目匯率可能不足以表示實際旅遊成本 \\
+事件衝擊 & 疫情、邊境開放、地震、颱風、重大政策 & 避免將突發事件誤判為匯率效果 \\
+替代目的地吸引力 & 韓國、香港、泰國等替代市場價格或匯率 & 日本旅客是在多目的地間做選擇 \\
+\bottomrule
+\end{longtable}
+
+\subsection{資料頻率與樣本期間}
+
+月資料通常比季資料更適合研究觀光流量，原因如下：
+
+\begin{itemize}
+  \item 旅遊需求具有明顯月度季節性。
+  \item 匯率波動常在短期內快速變化。
+  \item 月資料能更好辨識疫情、邊境政策與航班恢復節奏。
+\end{itemize}
+
+樣本期間可依研究重點分為兩種：
+
+\begin{enumerate}
+  \item \textbf{長樣本：}包含疫情前、疫情中、疫情後，可研究結構性斷裂，但模型較複雜。
+  \item \textbf{短樣本：}只取邊境穩定開放後期間，可降低制度性干擾，但樣本數可能不足。
+\end{enumerate}
+
+\section{基準模型設計}
+
+\subsection{靜態對數線性模型}
+
+最基本的月資料需求模型可寫成：
+
+\begin{equation}
+\ln(Tourist_t)
+= \alpha
++ \beta \ln(FX_t)
++ \gamma' X_t
++ \sum_{m=1}^{11} \delta_m Month_{m,t}
++ \varepsilon_t
+\end{equation}
+
+其中：
+
+\begin{itemize}
+  \item $Tourist_t$：第 $t$ 月日本來台人數。
+  \item $FX_t$：台日匯率指標。
+  \item $X_t$：其他控制變數向量。
+  \item $Month_{m,t}$：月份虛擬變數，用以控制固定季節性。
+  \item $\varepsilon_t$：誤差項。
+\end{itemize}
+
+若 $\beta > 0$，表示日圓相對更強時，日本來台人數上升；且在對數模型中，$\beta$ 可解讀為匯率彈性。
+
+\subsection{分配落後模型}
+
+旅遊決策通常不是看到匯率就立刻成行，因此建議加入落後期：
+
+\begin{equation}
+\ln(Tourist_t)
+= \alpha
++ \beta_0 \ln(FX_t)
++ \beta_1 \ln(FX_{t-1})
++ \beta_2 \ln(FX_{t-2})
++ \gamma' X_t
++ \sum_{m=1}^{11} \delta_m Month_{m,t}
++ \varepsilon_t
+\end{equation}
+
+此模型能檢驗：
+
+\begin{itemize}
+  \item 當月效果是否顯著；
+  \item 匯率是否在 1 至 2 個月後才產生影響；
+  \item 累積效果 $\beta_0+\beta_1+\beta_2$ 是否顯著。
+\end{itemize}
+
+\subsection{動態需求模型}
+
+由於旅遊流量本身常具有慣性，可再加入被解釋變數落後期：
+
+\begin{equation}
+\ln(Tourist_t)
+= \alpha
++ \rho \ln(Tourist_{t-1})
++ \beta \ln(FX_t)
++ \gamma' X_t
++ \sum_{m=1}^{11} \delta_m Month_{m,t}
++ \varepsilon_t
+\end{equation}
+
+其中 $\rho$ 用來衡量旅遊需求的持續性。若 $\rho$ 顯著且接近 1，表示本月人數高度受到上月人數影響，也意味著單純 OLS 可能低估動態效果的重要性。
+
+\section{進階模型選項}
+
+\subsection{ARDL 與誤差修正模型}
+
+若匯率與旅遊人數皆呈現趨勢性，則需檢查是否存在單根與共整合關係。此時可考慮 ARDL（Autoregressive Distributed Lag）模型。其優點是：
+
+\begin{itemize}
+  \item 可同時處理 $I(0)$ 與 $I(1)$ 變數，但不能混入 $I(2)$。
+  \item 可拆解短期效果與長期均衡關係。
+  \item 相較純差分模型，較容易保留經濟意涵。
+\end{itemize}
+
+若存在長期均衡，則可寫成誤差修正模型（ECM）：
+
+\begin{equation}
+\Delta \ln(Tourist_t)
+= \phi \Big(
+\ln(Tourist_{t-1})
+- \theta_1 \ln(FX_{t-1})
+- \theta_2' X_{t-1}
+\Big)
++ \sum_j \psi_j \Delta Z_{j,t}
++ u_t
+\end{equation}
+
+其中 $\phi < 0$ 代表系統偏離長期均衡後，會逐步調整回來。
+
+\subsection{SARIMA / SARIMAX}
+
+若研究重點在預測，而非因果解釋，可採用具有季節性的時間序列模型，例如 SARIMAX。此類模型能處理：
+
+\begin{itemize}
+  \item 明顯的月度季節循環；
+  \item 自我相關；
+  \item 外生變數（如匯率、航班數、疫情虛擬變數）。
+\end{itemize}
+
+但 SARIMAX 的主要限制在於經濟解讀通常不如結構式需求模型直觀。
+
+\subsection{工具變數模型}
+
+若懷疑匯率與旅遊人數存在雙向關係或共同受到第三因素影響，可考慮工具變數法（IV）。例如，若全球金融情勢同時影響日圓走勢與國際旅遊意願，則 OLS 的匯率係數可能有偏。IV 的關鍵困難在於：\textbf{找到既會影響台日匯率、又不會直接影響日本來台旅遊需求的有效工具變數並不容易。}
+
+\section{係數解讀}
+
+若使用對數對數模型，則匯率係數可直接解讀為彈性。例如：
+
+\[
+\beta = 0.4
+\]
+
+代表當日圓相對新台幣購買力上升 $1\%$ 時，日本來台人數平均增加約 $0.4\%$，在其他條件不變下成立。
+
+然而，估計出的彈性大小未必很高，原因可能包括：
+
+\begin{itemize}
+  \item 短期旅遊決策受假期安排與機票供給限制。
+  \item 對部分旅客來說，匯率只影響消費金額，不影響是否出行。
+  \item 台灣可能不是日本旅客的唯一替代選項，匯率效果被多國競爭分散。
+\end{itemize}
+
+\section{研究上可能遇到的主要問題}
+
+\subsection{匯率變數定義錯誤}
+
+這是最常見且最嚴重的問題之一。若匯率方向定義不一致，例如有時用 JPY/TWD、有時用 TWD/JPY，則估計結果的正負號會完全相反，容易造成錯誤結論。因此研究一開始就必須明確定義：
+
+\begin{quote}
+當匯率變數上升時，究竟代表「日本旅客來台更便宜」還是「更昂貴」？
+\end{quote}
+
+\subsection{遺漏變數偏誤}
+
+若模型未控制航班供給、票價、假期與疫情等因素，匯率係數可能吸收其他效果。例如：
+
+\begin{itemize}
+  \item 疫情後日圓走弱，但同時航班也逐步恢復。
+  \item 若未控制航班數，來台人數上升可能被誤判為匯率效果。
+\end{itemize}
+
+\subsection{疫情與邊境政策造成結構性斷裂}
+
+COVID-19 對國際旅遊造成近乎中止的衝擊。若將疫情前後資料直接放在同一條穩定需求曲線中估計，往往會違反參數穩定假設。因此應至少考慮：
+
+\begin{itemize}
+  \item 疫情期間虛擬變數；
+  \item 分段樣本估計；
+  \item 結構性斷點檢定；
+  \item 只使用邊境開放後資料進行主分析。
+\end{itemize}
+
+\subsection{季節性與節慶效果}
+
+日本來台旅遊高度季節化。若未控制月份效果，匯率剛好與季節波動重疊時，就可能產生偽相關。例如黃金週、暑假與年末假期通常會使特定月份出國人數上升，這未必是匯率造成的。
+
+\subsection{非平穩性與偽迴歸}
+
+若旅遊人數與匯率都帶有趨勢或單根，直接用水準值迴歸可能出現高 $R^2$ 但實際上毫無經濟意義的偽迴歸問題。因此需檢查：
+
+\begin{itemize}
+  \item 單根檢定（ADF、PP）。
+  \item 是否需要差分。
+  \item 是否存在共整合關係。
+\end{itemize}
+
+\subsection{內生性與共同衝擊}
+
+匯率不是完全外生。全球景氣、金融市場避險情緒、能源價格或美國貨幣政策都可能同時影響日圓走勢與國際旅遊活動。如果這些因素未被控制，則匯率係數可能混雜總體景氣效果，而不是純粹的相對價格效果。
+
+\subsection{落後效果被忽略}
+
+旅遊決策通常包含搜尋、比較、訂票與請假安排。若只看當月匯率，可能低估真實效果。因此至少應測試：
+
+\begin{itemize}
+  \item 當月匯率；
+  \item 1 個月落後；
+  \item 2 個月落後；
+  \item 累積效果。
+\end{itemize}
+
+\subsection{替代目的地競爭未被納入}
+
+日本旅客不是只在「來不來台灣」之間選擇，而是在「台灣、韓國、香港、泰國、新加坡等」之間分配旅遊預算。若其他地區同步出現更有利的匯率或促銷政策，台灣的旅遊吸引力可能被稀釋。因此，單看台日匯率可能無法完整捕捉相對競爭力。
+
+\subsection{資料品質與統計口徑變動}
+
+旅遊統計常見問題包括：
+
+\begin{itemize}
+  \item 統計口徑調整。
+  \item 月底跨月入境造成波動。
+  \item 觀光、商務、探親混合於同一入境分類。
+  \item 疫情期間極端低值拉扯估計結果。
+\end{itemize}
+
+若可取得更細分類資料，應優先使用純觀光目的來台人數，而不是全部入境目的總和。
+
+\subsection{線性假設可能過於簡化}
+
+匯率效果可能不是線性的。例如：
+
+\begin{itemize}
+  \item 小幅升值時旅客無感；
+  \item 只有在匯率達到某個門檻後，旅遊需求才明顯改變；
+  \item 日圓升值與貶值對旅遊需求的影響可能不對稱。
+\end{itemize}
+
+此時可考慮門檻模型、分段回歸或加入平方項檢驗非線性。
+
+\section{建議的實證策略}
+
+\subsection{基準分析}
+
+第一步建議建立下列基準模型：
+
+\begin{equation}
+\ln(Tourist_t)
+= \alpha
++ \beta_0 \ln(FX_t)
++ \beta_1 \ln(FX_{t-1})
++ \beta_2 \ln(FX_{t-2})
++ \gamma_1 Flight_t
++ \gamma_2 Income_t
++ \sum_{m=1}^{11}\delta_m Month_{m,t}
++ \eta Policy_t
++ \varepsilon_t
+\end{equation}
+
+這個規格的優點是：
+
+\begin{itemize}[leftmargin=2em]
+  \item 經濟意義明確。
+  \item 能處理基本的落後效果。
+  \item 透過月份虛擬變數控制季節性。
+  \item 可先作為後續穩健性檢驗的比較基準。
+\end{itemize}
+
+\subsection{穩健性檢驗}
+
+為提高研究可信度，建議至少進行以下穩健性檢驗：
+
+\begin{enumerate}
+  \item 更換匯率定義：名目匯率、實質匯率、期末值、月平均值。
+  \item 更換樣本期間：疫情前、疫情後、全樣本、排除極端月份。
+  \item 更換應變數：總入境、純觀光入境、人均消費、停留夜數。
+  \item 更換模型形式：水準值、對數值、差分模型、ARDL。
+  \item 檢查殘差：自我相關、異質變異與常態性。
+  \item 使用 Newey-West 或 HAC 標準誤修正。
+\end{enumerate}
+
+\subsection{可能的擴充方向}
+
+若研究要做得更完整，可加入以下延伸：
+
+\begin{itemize}
+  \item 比較日本旅客與其他國家旅客對匯率的敏感度差異。
+  \item 研究匯率對「人數」與「消費額」的不同影響。
+  \item 建立面板資料模型，以不同來源國為橫斷面。
+  \item 分析廉價航空擴張是否改變匯率彈性。
+  \item 納入 Google Trends 或搜尋量作為旅遊意願先行指標。
+\end{itemize}
+
+\section{實作建議與寫作架構}
+
+\subsection{建議的研究流程}
+
+\begin{enumerate}
+  \item 蒐集日本來台月人數資料。
+  \item 蒐集台日月平均匯率資料，明確定義方向。
+  \item 蒐集航班數、景氣指標、月份虛擬變數與政策事件變數。
+  \item 繪製時間序列圖，先做描述統計與趨勢觀察。
+  \item 檢查單根、季節性與結構斷點。
+  \item 估計基準模型。
+  \item 加入落後期與替代規格做穩健性檢驗。
+  \item 解讀結果時區分「統計顯著」與「經濟顯著」。
+  \item 討論限制，避免過度宣稱因果。
+\end{enumerate}
+
+\subsection{報告正文可採用的章節配置}
+
+若要把本主題發展成正式課堂報告，建議章節如下：
+
+\begin{enumerate}
+  \item 緒論：研究動機、問題意識、研究目的。
+  \item 文獻回顧：旅遊需求模型、匯率與國際觀光相關研究。
+  \item 資料與變數：資料來源、變數定義、統計描述。
+  \item 研究方法：基準模型、動態模型、穩健性檢驗。
+  \item 實證結果：主結果表、敏感度分析、圖形展示。
+  \item 討論：經濟意涵、限制與政策解釋。
+  \item 結論：研究發現、政策意涵、未來研究方向。
+\end{enumerate}
+
+\section{結論}
+
+整體而言，台日匯率確實有可能影響日本來台人數，但若要得到可信的實證結果，不能只把旅遊人數直接對匯率做簡單回歸。真正困難之處在於：旅遊需求同時受到季節、景氣、票價、航班供給、替代目的地競爭與重大事件衝擊，若這些因素控制不足，匯率效果很容易被高估、低估，甚至連方向都判斷錯誤。
+
+因此，一個較合理的研究設計，應以月資料為基礎，使用對數型需求模型，搭配匯率落後期、季節虛擬變數、供給面控制與結構性斷點處理；若資料呈現非平穩性，則進一步使用 ARDL 或 ECM 模型。若最終估計結果不顯著，也不代表匯率不重要，而可能反映旅遊決策本身是多因素共同決定，或匯率效果主要反映在消費額而非人數上。
+
+換言之，本題最重要的不只是「估出一個係數」，而是建立一個能夠區分價格效果、時間延遲、制度斷裂與資料限制的完整分析框架。這才是研究「台日匯率對日本來台人數影響」時最需要掌握的核心。
+
+\section*{附錄：可直接放入實證報告的模型文字}
+
+以下文字可直接作為正式報告的方法段落底稿：
+
+\begin{quote}
+本研究使用月資料分析台日匯率對日本來台旅客人數之影響。被解釋變數為日本來台旅客人數之對數值，核心解釋變數為台日雙邊匯率之對數值，並納入航班供給、日本景氣指標、月份虛擬變數及重大政策事件虛擬變數作為控制變數。考量旅遊決策可能存在延遲反應，模型中進一步加入匯率之一至二期落後值，以估計其短期與累積效果。此外，為避免非平穩時間序列造成偽迴歸，本文將先檢驗各變數之單根性質，再視結果採用對數水準模型、差分模型或 ARDL/ECM 模型進行估計，並透過替代匯率定義、分段樣本估計與穩健標準誤檢驗結果之穩健性。
+\end{quote}
+
+\section*{參考資料建議}
+
+\begin{thebibliography}{99}
+
+\bibitem{songli}
+Song, H., Li, G. Tourism demand modelling and forecasting: a review of recent research.
+
+\bibitem{lim}
+Lim, C. Review of international tourism demand models.
+
+\bibitem{unwto}
+UNWTO. International tourism statistics and methodological references.
+
+\bibitem{motc}
+交通部觀光署。來台旅客統計資料與觀光相關公開資料。
+
+\bibitem{cbc}
+中央銀行。新台幣與主要貨幣匯率統計資料。
+
+\bibitem{boj}
+Bank of Japan / 日本相關官方統計資料來源。
+
+\end{thebibliography}
+
+\end{document}

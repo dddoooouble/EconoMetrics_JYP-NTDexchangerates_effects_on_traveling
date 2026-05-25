@@ -1,0 +1,5 @@
+Sample period: 2009-10-01 to 2019-12-01
+Number of observations: 123
+Preferred full-model exchange rate coefficient: 0.119
+Dynamic-model exchange rate coefficient: -0.264
+Distributed-lag cumulative exchange rate coefficient: 0.186
