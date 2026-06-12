@@ -1,5 +1,5 @@
 # EconoMetrics_JYP-NTDexchangerates_effects_on_traveling
-
+## 若老師想直接看到成果，可以直接在root目錄下找到 "Japan_Taiwan_Tourism_Report.pdf" 這份檔案以及 "Japan_Taiwan_Tourism_Report.pdf"
 ## 研究主題
 
 本專題研究日台匯率變動是否會影響日人來台觀光人數，主題為 **The Effect of the JPY/TWD Exchange Rate on Japanese Tourist Arrivals to Taiwan**。
