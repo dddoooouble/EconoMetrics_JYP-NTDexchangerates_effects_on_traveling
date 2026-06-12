@@ -1,0 +1,50 @@
+
+\begin{table}[H] \centering 
+  \caption{Regression results with HAC standard errors (R-generated STATA-style table)} 
+  \label{} 
+\small 
+\begin{tabular}{@{\extracolsep{5pt}}lcc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{2}{c}{Dependent variable:} \\ 
+\cline{2-3} 
+\\[-1.8ex] & \multicolumn{2}{c}{$\ln(\text{Tourist})$} \\ 
+ & Model 1: Static & Model 2: Dynamic \\ 
+\hline \\[-1.8ex] 
+ Lagged tourist arrivals &  & 0.505$^{***}$ \\ 
+  &  & (0.082) \\ 
+  Current exchange-rate change & $-$0.991$^{*}$ & $-$1.032$^{*}$ \\ 
+  & (0.559) & (0.536) \\ 
+  Exchange-rate change ($t-1$) &  & 0.435 \\ 
+  &  & (0.405) \\ 
+  Exchange-rate change ($t-2$) &  & $-$0.098 \\ 
+  &  & (0.392) \\ 
+  Current Japanese industrial production & 0.302 & 0.840$^{***}$ \\ 
+  & (0.548) & (0.323) \\ 
+  Japanese industrial production ($t-1$) &  & $-$0.623$^{*}$ \\ 
+  &  & (0.373) \\ 
+  Japanese industrial production ($t-2$) &  & 0.006 \\ 
+  &  & (0.327) \\ 
+  Current oil-price change & $-$0.260$^{*}$ & $-$0.133 \\ 
+  & (0.135) & (0.132) \\ 
+  Oil-price change ($t-1$) &  & 0.053 \\ 
+  &  & (0.145) \\ 
+  Oil-price change ($t-2$) &  & 0.116 \\ 
+  &  & (0.129) \\ 
+  Time trend & 0.007$^{***}$ & 0.003$^{***}$ \\ 
+  & (0.001) & (0.001) \\ 
+  Constant & 9.812$^{***}$ & 4.514$^{**}$ \\ 
+  & (2.512) & (1.947) \\ 
+ \hline \\[-1.8ex] 
+Month dummies & Included & Included \\ 
+Breusch-Godfrey p-value & 1.22e-07 & 5.96e-05 \\ 
+Max VIF (excluding constant) & 3.27 & 9.75 \\ 
+Observations & 120 & 120 \\ 
+R$^{2}$ & 0.896 & 0.922 \\ 
+Adjusted R$^{2}$ & 0.880 & 0.904 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{2}{l}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+ & \multicolumn{2}{l}{HAC standard errors in parentheses.} \\ 
+\end{tabular} 
+\end{table} 

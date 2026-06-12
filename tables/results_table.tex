@@ -1,0 +1,42 @@
+\begin{table}[H]
+\centering
+\caption{Stata-style regression table based on R estimates}
+\label{tab:main-results}
+\small
+\begin{tabular}{lcc}
+\toprule
+Variable & (1) Static model & (2) Dynamic lag model \\
+\midrule
+$\Delta \ln(\mathrm{FX}_t)$ & -0.991* & -1.032* \\
+ & (0.559) & (0.536) \\
+$\Delta \ln(\mathrm{FX}_{t-1})$ & --- & 0.435 \\
+ &  & (0.405) \\
+$\Delta \ln(\mathrm{FX}_{t-2})$ & --- & -0.098 \\
+ &  & (0.392) \\
+$\ln(\mathrm{Tourist}_{t-1})$ & --- & 0.505*** \\
+ &  & (0.082) \\
+$\ln(\mathrm{JIPI}_t)$ & 0.302 & 0.840** \\
+ & (0.548) & (0.323) \\
+$\ln(\mathrm{JIPI}_{t-1})$ & --- & -0.623* \\
+ &  & (0.373) \\
+$\ln(\mathrm{JIPI}_{t-2})$ & --- & 0.006 \\
+ &  & (0.327) \\
+$\Delta \ln(\mathrm{OilPrice}_t)$ & -0.260* & -0.133 \\
+ & (0.135) & (0.132) \\
+$\Delta \ln(\mathrm{OilPrice}_{t-1})$ & --- & 0.053 \\
+ &  & (0.145) \\
+$\Delta \ln(\mathrm{OilPrice}_{t-2})$ & --- & 0.116 \\
+ &  & (0.129) \\
+Time trend & 0.007*** & 0.003*** \\
+ & (0.001) & (0.001) \\
+Observations & 120 & 120 \\
+Adjusted $R^2$ & 0.8805 & 0.9044 \\
+HAC standard errors & Yes & Yes \\
+\bottomrule
+\end{tabular}
+\vspace{0.4em}
+\begin{minipage}{0.92\textwidth}
+\footnotesize
+Notes: Newey-West HAC robust standard errors are reported in parentheses. Significance levels are based on HAC p-values. * $p<0.10$, ** $p<0.05$, *** $p<0.01$.
+\end{minipage}
+\end{table}
