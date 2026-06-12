@@ -13,6 +13,15 @@
 
 課堂用資料檔、參考文獻 PDF、答辯備忘稿等未一併放入這次的 GitHub 版本。
 
+## 組員分工
+
+- B12204033 地質三 施卲：Regression-analysis support, slide preparation, written-report preparation, figure and table preparation, oral-presentation support
+- B13303042 經濟二 劉孟暉：Regression analysis, literature review, final review, oral-presentation support, error checking
+- B11103009 經濟四 吳祐儀：Topic development, data preprocessing, main oral presentation
+- B13303151 經濟二 葉禹辰：Topic development, data preprocessing
+- B13303054 經濟二 邱薇臻：Topic development, data preprocessing
+- B11303130 經濟四 陳碩錨：Topic development, data preprocessing
+
 ## 最終版檔案
 
 - `Japan_Taiwan_Tourism_Beamer.pdf`
@@ -62,15 +71,6 @@
 - Breusch-Godfrey 檢定在兩個模型中仍顯示殘差序列相關，因此推論依賴 Newey-West HAC 修正。
 - 動態模型的最大 VIF 為 `9.75`，顯示部分落後變數之間存在較高共線性，個別係數解讀需要保守。
 - 目前模型是關聯分析，不是具識別策略的因果推論設計。
-
-## 組員分工
-
-- B12204033 地質三 施卲：Regression-analysis support, slide preparation, written-report preparation, figure and table preparation, oral-presentation support
-- B13303042 經濟二 劉孟暉：Regression analysis, literature review, final review, oral-presentation support, error checking
-- B11103009 經濟四 吳祐儀：Topic development, data preprocessing, main oral presentation
-- B13303151 經濟二 葉禹辰：Topic development, data preprocessing
-- B13303054 經濟二 邱薇臻：Topic development, data preprocessing
-- B11303130 經濟四 陳碩錨：Topic development, data preprocessing
 
 ## 重新執行方式
 
